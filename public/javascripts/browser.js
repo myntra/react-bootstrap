@@ -20491,8 +20491,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      this.state.results ? this.state.results.map(this.renderProduct) : 'Loading...',
-	      React.createElement(PDP, { id: 456456 })
+	      this.state.results ? this.state.results.map(this.renderProduct) : 'Loading...'
 	    );
 	  }
 	});

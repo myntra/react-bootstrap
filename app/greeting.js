@@ -46,7 +46,6 @@ var Greeting = React.createClass({
       <div>
         {this.state.results ?
         this.state.results.map(this.renderProduct) : 'Loading...'}
-        <PDP id={456456} />
       </div>
     );
   },
