@@ -20465,12 +20465,28 @@
 	    });
 	  },
 
+	  addToCart: function addToCart() {
+	    alert('added to cart: ' + this.state.data.id);
+	  },
+
+	  sizeSelected: function sizeSelected(e) {
+	    console.log(e.target.value);
+	  },
+
+	  renderSize: function renderSize(size) {
+	    return React.createElement(
+	      'option',
+	      { value: size.skuId },
+	      size.value
+	    );
+	  },
+
 	  render: function render() {
 	    if (this.state.data) {
 	      return React.createElement(
 	        'div',
 	        null,
-	        React.createElement('img', { src: this.state.data.styleImages['default'].imageURL, width: 200 }),
+	        React.createElement('img', { src: this.state.data.styleImages['default'].imageURL, height: 60 }),
 	        React.createElement(
 	          'div',
 	          null,
@@ -20481,6 +20497,16 @@
 	          null,
 	          'Rs. ',
 	          this.state.data.discountedPrice
+	        ),
+	        React.createElement(
+	          'select',
+	          { onChange: this.sizeSelected },
+	          this.state.data.styleOptions.map(this.renderSize)
+	        ),
+	        React.createElement(
+	          'button',
+	          { onClick: this.addToCart },
+	          'Add to cart'
 	        )
 	      );
 	    } else {

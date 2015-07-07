@@ -20,13 +20,31 @@ var Greeting = React.createClass({
     });
   },
 
+  addToCart: function () {
+    alert('added to cart: ' + this.state.data.id);
+  },
+
+  sizeSelected: function (e) {
+    console.log(e.target.value);
+  },
+
+  renderSize: function (size) {
+    return (
+      <option value={size.skuId}>{size.value}</option>
+    );
+  },
+
   render: function() {    
     if (this.state.data) {
       return (
         <div>
-          <img src={this.state.data.styleImages.default.imageURL} width={200} />
+          <img src={this.state.data.styleImages.default.imageURL} height={60} />
           <div>{this.state.data.productDisplayName}</div>
           <div>Rs. {this.state.data.discountedPrice}</div>
+          <select onChange={this.sizeSelected}>
+            {this.state.data.styleOptions.map(this.renderSize)}
+          </select>
+          <button onClick={this.addToCart}>Add to cart</button>
         </div>
       );      
     } else {
