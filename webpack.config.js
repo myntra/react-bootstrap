@@ -1,12 +1,8 @@
 var webpack = require('webpack');
 
-module.exports = {
+ var config = {
   context: __dirname + "/app",
-  entry: [
-    'webpack-dev-server/client?http://0.0.0.0:8080',
-    'webpack/hot/only-dev-server',
-    './app.js',
-  ],
+  entry: './app.js',
 
   output: {
     filename: "browser.js",
@@ -22,10 +18,6 @@ module.exports = {
       },
     ],
   },
-
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-  ],
-
 };
+
+module.exports = config;
