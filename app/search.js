@@ -1,7 +1,8 @@
 var React = require('react');
 var superagent = require('superagent');
+var PDP = require('./pdp');
 
-var Greeting = React.createClass({
+var SearchResults = React.createClass({
   getInitialState: function () {
     return {
       results: null,
@@ -22,7 +23,7 @@ var Greeting = React.createClass({
     return (
       <div style={style} onClick={() => {this.setState({selectedProduct: product.styleid})}}>
         <img src={product.search_image} style={{
-          width: 180,
+          width: 30,
         }} />
       </div>
     );
@@ -44,11 +45,11 @@ var Greeting = React.createClass({
   render: function() {
     return (
       <div>
-        {this.state.results ?
-        this.state.results.map(this.renderProduct) : 'Loading...'}
+        {this.state.results ? this.state.results.map(this.renderProduct) : 'Loading...'}
+        <PDP id={this.state.selectedProduct} />
       </div>
     );
   },
 });
 
-module.exports = Greeting;
+module.exports = SearchResults;

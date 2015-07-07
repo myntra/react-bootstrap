@@ -1,7 +1,7 @@
 import React from "react";
-import Greeting from "./greeting";
+import Search from "./search";
 
 React.render(
-  <Greeting name="World"/>,
+  <Search name="World"/>,
   document.getElementById('wrap')
 );

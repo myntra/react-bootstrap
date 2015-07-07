@@ -52,11 +52,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _greeting = __webpack_require__(157);
+	var _search = __webpack_require__(161);
 
-	var _greeting2 = _interopRequireDefault(_greeting);
+	var _search2 = _interopRequireDefault(_search);
 
-	_react2["default"].render(_react2["default"].createElement(_greeting2["default"], { name: "World" }), document.getElementById("wrap"));
+	_react2["default"].render(_react2["default"].createElement(_search2["default"], { name: "World" }), document.getElementById("wrap"));
 
 /***/ },
 /* 1 */
@@ -20434,71 +20434,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 157 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-	var superagent = __webpack_require__(158);
-
-	var Greeting = React.createClass({
-	  displayName: 'Greeting',
-
-	  getInitialState: function getInitialState() {
-	    return {
-	      results: null,
-	      selectedProduct: null
-	    };
-	  },
-
-	  renderProduct: function renderProduct(product) {
-	    var _this = this;
-
-	    var style = {
-	      display: 'inline-block',
-	      borderWidth: 1,
-	      borderStyle: 'solid',
-	      borderColor: this.state.selectedProduct === product.styleid ? 'blue' : 'white'
-	    };
-
-	    return React.createElement(
-	      'div',
-	      { style: style, onClick: function () {
-	          _this.setState({ selectedProduct: product.styleid });
-	        } },
-	      React.createElement('img', { src: product.search_image, style: {
-	          width: 180
-	        } })
-	    );
-	  },
-
-	  componentDidMount: function componentDidMount() {
-	    var _this2 = this;
-
-	    superagent.get('/api/search/data/jeans', function (err, res) {
-	      if (err) {
-	        return console.log(err);
-	      };
-
-	      _this2.setState({
-	        results: res.body.data.results.products
-	      });
-	    });
-	  },
-
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      this.state.results ? this.state.results.map(this.renderProduct) : 'Loading...'
-	    );
-	  }
-	});
-
-	module.exports = Greeting;
-
-/***/ },
+/* 157 */,
 /* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -21825,6 +21761,174 @@
 	  
 	  return curr;
 	};
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var superagent = __webpack_require__(158);
+	var PDP = __webpack_require__(162);
+
+	var SearchResults = React.createClass({
+	  displayName: 'SearchResults',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      results: null,
+	      selectedProduct: null
+	    };
+	  },
+
+	  renderProduct: function renderProduct(product) {
+	    var _this = this;
+
+	    var style = {
+	      display: 'inline-block',
+	      borderWidth: 1,
+	      borderStyle: 'solid',
+	      borderColor: this.state.selectedProduct === product.styleid ? 'blue' : 'white'
+	    };
+
+	    return React.createElement(
+	      'div',
+	      { style: style, onClick: function () {
+	          _this.setState({ selectedProduct: product.styleid });
+	        } },
+	      React.createElement('img', { src: product.search_image, style: {
+	          width: 30
+	        } })
+	    );
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    var _this2 = this;
+
+	    superagent.get('/api/search/data/jeans', function (err, res) {
+	      if (err) {
+	        return console.log(err);
+	      };
+
+	      _this2.setState({
+	        results: res.body.data.results.products
+	      });
+	    });
+	  },
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      this.state.results ? this.state.results.map(this.renderProduct) : 'Loading...',
+	      React.createElement(PDP, { id: this.state.selectedProduct })
+	    );
+	  }
+	});
+
+	module.exports = SearchResults;
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var superagent = __webpack_require__(158);
+
+	var PDP = React.createClass({
+	  displayName: 'PDP',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      data: undefined
+	    };
+	  },
+
+	  fetch: function fetch(styleid) {
+	    var _this = this;
+
+	    if (!styleid) {
+	      return;
+	    };
+
+	    superagent.get('/api/style/' + styleid, function (err, res) {
+	      if (err) {
+	        return console.log(err);
+	      };
+
+	      _this.setState({
+	        data: res.body.data
+	      });
+	    });
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    this.fetch(this.props.id);
+	  },
+
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    this.fetch(nextProps.id);
+	  },
+
+	  addToCart: function addToCart() {
+	    alert('added to cart: ' + this.state.data.id);
+	  },
+
+	  sizeSelected: function sizeSelected(e) {
+	    console.log(e.target.value);
+	  },
+
+	  renderSize: function renderSize(size) {
+	    return React.createElement(
+	      'option',
+	      { value: size.skuId },
+	      size.value
+	    );
+	  },
+
+	  render: function render() {
+	    if (this.state.data) {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement('img', { src: this.state.data.styleImages['default'].imageURL, height: 60 }),
+	        React.createElement(
+	          'div',
+	          null,
+	          this.state.data.productDisplayName
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          'Rs. ',
+	          this.state.data.discountedPrice
+	        ),
+	        React.createElement(
+	          'select',
+	          { onChange: this.sizeSelected },
+	          this.state.data.styleOptions.map(this.renderSize)
+	        ),
+	        React.createElement(
+	          'button',
+	          { onClick: this.addToCart },
+	          'Add to cart'
+	        )
+	      );
+	    } else {
+	      return React.createElement(
+	        'div',
+	        null,
+	        'Loading...'
+	      );
+	    }
+	  }
+
+	});
+
+	module.exports = PDP;
 
 /***/ }
 /******/ ]);
