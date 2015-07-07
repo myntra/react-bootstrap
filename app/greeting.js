@@ -1,29 +1,54 @@
-import React from "react";
+var React = require('react');
+var superagent = require('superagent');
 
-export default React.createClass({
+var Greeting = React.createClass({
   getInitialState: function () {
     return {
-      count: 0,
+      results: null,
+      selectedProduct: null
     };
   },
 
-  componentDidMount: function () {
-    this.tick();
+  renderProduct: function (product) {
+
+
+    var style = {
+        display: 'inline-block',
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: (this.state.selectedProduct === product.id) ? 'blue' : 'white'
+      };
+
+    return (
+      <div style={style} onClick={() => {this.setState({selectedProduct: product.id})}}>
+        <img src={product.search_image} style={{
+          width: 180,
+        }} />
+      </div>
+    );
   },
 
-  tick: function () {
-    this.setState({
-      count: this.state.count + 1
+  componentDidMount: function () {
+    superagent.get('/api/search/data/jeans', (err, res) => {
+      if (err) {
+        return console.log(err);
+      };
+
+      this.setState({
+        results: res.body.data.results.products
+      });
     });
-    setTimeout(this.tick, 1000);
+
   },
 
   render: function() {
     return (
-      <div className="greeting">
-        Hello, {this.props.name}.
-        I'm {this.state.count} seconds old.
+      <div>
+        {this.state.results ?
+        this.state.results.map(this.renderProduct) : 'Loading...'}
       </div>
     );
   },
 });
+
+module.exports = Greeting;

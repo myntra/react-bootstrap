@@ -20453,47 +20453,51 @@
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      results: null
+	      results: null,
+	      selectedProduct: null
 	    };
 	  },
 
-	  componentDidMount: function componentDidMount() {
+	  renderProduct: function renderProduct(product) {
 	    var _this = this;
 
-	    superagent.get('/api/search/data/shoes', function (err, res) {
+	    var style = {
+	      display: 'inline-block',
+	      borderWidth: 1,
+	      borderStyle: 'solid',
+	      borderColor: this.state.selectedProduct === product.id ? 'blue' : 'white'
+	    };
 
-	      _this.setState({
-	        results: res.body.data.results.products
-	      });
-	    });
-
-	    // this.tick();
-	  },
-
-	  renderResult: function renderResult(product) {
-	    // console.log(product.id);
 	    return React.createElement(
 	      'div',
-	      { onClick: function () {
-	          console.log(product.stylename);
-	        }, style: { display: 'inline-block', width: 200 } },
-	      React.createElement('img', { width: 180, src: product.search_image }),
-	      product.stylename
+	      { style: style, onClick: function () {
+	          _this.setState({ selectedProduct: product.id });
+	        } },
+	      React.createElement('img', { src: product.search_image, style: {
+	          width: 180
+	        } })
 	    );
 	  },
 
-	  tick: function tick() {
-	    this.setState({
-	      count: this.state.count + 1
+	  componentDidMount: function componentDidMount() {
+	    var _this2 = this;
+
+	    superagent.get('/api/search/data/jeans', function (err, res) {
+	      if (err) {
+	        return console.log(err);
+	      };
+
+	      _this2.setState({
+	        results: res.body.data.results.products
+	      });
 	    });
-	    setTimeout(this.tick, 1000);
 	  },
 
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      { className: 'greeting' },
-	      this.state.results ? this.state.results.map(this.renderResult) : 'Loading...'
+	      null,
+	      this.state.results ? this.state.results.map(this.renderProduct) : 'Loading...'
 	    );
 	  }
 	});
