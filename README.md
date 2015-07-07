@@ -14,4 +14,4 @@ A simple bootstrap project with React for Myntra new-hire training.
 
 # Browser
 
-- Open http://localhost:3000 and start developing!
+- Open [http://localhost:3000](http://localhost:3000) and start developing!
