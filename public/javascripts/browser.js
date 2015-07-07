@@ -21777,6 +21777,7 @@
 
 	  getInitialState: function getInitialState() {
 	    return {
+	      q: 'jeans',
 	      results: null,
 	      selectedProduct: null
 	    };
@@ -21803,10 +21804,15 @@
 	    );
 	  },
 
-	  componentDidMount: function componentDidMount() {
+	  fetchResults: function fetchResults(term) {
 	    var _this2 = this;
 
-	    superagent.get('/api/search/data/jeans', function (err, res) {
+	    term = term.replace(' ', '+');
+	    if (!term) {
+	      return;
+	    };
+
+	    superagent.get('/api/search/data/' + term, function (err, res) {
 	      if (err) {
 	        return console.log(err);
 	      };
@@ -21817,10 +21823,26 @@
 	    });
 	  },
 
+	  componentDidMount: function componentDidMount() {
+	    this.fetchResults(this.state.q);
+	  },
+
+	  onInputChange: function onInputChange(e) {
+	    this.setState({
+	      q: e.target.value
+	    });
+	    this.fetchResults(e.target.value);
+	  },
+
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement(
+	        'div',
+	        null,
+	        React.createElement('input', { onChange: this.onInputChange, value: this.state.q })
+	      ),
 	      this.state.results ? this.state.results.map(this.renderProduct) : 'Loading...',
 	      React.createElement(PDP, { id: this.state.selectedProduct })
 	    );
