@@ -20459,13 +20459,13 @@
 	      display: 'inline-block',
 	      borderWidth: 1,
 	      borderStyle: 'solid',
-	      borderColor: this.state.selectedProduct === product.id ? 'blue' : 'white'
+	      borderColor: this.state.selectedProduct === product.styleid ? 'blue' : 'white'
 	    };
 
 	    return React.createElement(
 	      'div',
 	      { style: style, onClick: function () {
-	          _this.setState({ selectedProduct: product.id });
+	          _this.setState({ selectedProduct: product.styleid });
 	        } },
 	      React.createElement('img', { src: product.search_image, style: {
 	          width: 180
@@ -20491,7 +20491,8 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      this.state.results ? this.state.results.map(this.renderProduct) : 'Loading...'
+	      this.state.results ? this.state.results.map(this.renderProduct) : 'Loading...',
+	      React.createElement(PDP, { id: 456456 })
 	    );
 	  }
 	});

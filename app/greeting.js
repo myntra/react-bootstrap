@@ -16,11 +16,11 @@ var Greeting = React.createClass({
         display: 'inline-block',
         borderWidth: 1,
         borderStyle: 'solid',
-        borderColor: (this.state.selectedProduct === product.id) ? 'blue' : 'white'
+        borderColor: (this.state.selectedProduct === product.styleid) ? 'blue' : 'white'
       };
 
     return (
-      <div style={style} onClick={() => {this.setState({selectedProduct: product.id})}}>
+      <div style={style} onClick={() => {this.setState({selectedProduct: product.styleid})}}>
         <img src={product.search_image} style={{
           width: 180,
         }} />
@@ -46,6 +46,7 @@ var Greeting = React.createClass({
       <div>
         {this.state.results ?
         this.state.results.map(this.renderProduct) : 'Loading...'}
+        <PDP id={456456} />
       </div>
     );
   },
