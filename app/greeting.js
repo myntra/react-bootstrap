@@ -4,51 +4,36 @@ var superagent = require('superagent');
 var Greeting = React.createClass({
   getInitialState: function () {
     return {
-      results: null,
-      selectedProduct: null
+      data: undefined
     };
   },
 
-  renderProduct: function (product) {
-
-
-    var style = {
-        display: 'inline-block',
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderColor: (this.state.selectedProduct === product.id) ? 'blue' : 'white'
-      };
-
-    return (
-      <div style={style} onClick={() => {this.setState({selectedProduct: product.id})}}>
-        <img src={product.search_image} style={{
-          width: 180,
-        }} />
-      </div>
-    );
-  },
-
   componentDidMount: function () {
-    superagent.get('/api/search/data/jeans', (err, res) => {
+    superagent.get('/api/style/790880', (err, res) => {
       if (err) {
         return console.log(err);
       };
 
       this.setState({
-        results: res.body.data.results.products
+        data: res.body.data
       });
     });
-
   },
 
-  render: function() {
-    return (
-      <div>
-        {this.state.results ?
-        this.state.results.map(this.renderProduct) : 'Loading...'}
-      </div>
-    );
+  render: function() {    
+    if (this.state.data) {
+      return (
+        <div>
+          <img src={this.state.data.styleImages.default.imageURL} width={200} />
+          <div>{this.state.data.productDisplayName}</div>
+          <div>Rs. {this.state.data.discountedPrice}</div>
+        </div>
+      );      
+    } else {
+      return <div>"Loading..."</div>;
+    }
   },
+
 });
 
 module.exports = Greeting;

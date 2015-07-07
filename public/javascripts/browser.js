@@ -44,8 +44,6 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Param/Documents/react-bootstrap/node_modules/react-hot-loader/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Param/Documents/react-bootstrap/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } (function () {
-
 	"use strict";
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -59,8 +57,6 @@
 	var _greeting2 = _interopRequireDefault(_greeting);
 
 	_react2["default"].render(_react2["default"].createElement(_greeting2["default"], { name: "World" }), document.getElementById("wrap"));
-
-	/* REACT HOT LOADER */ }).call(this); if (false) { (function () { module.hot.dispose(function (data) { data.makeHot = module.makeHot; }); if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Param/Documents/react-bootstrap/node_modules/react-hot-loader/makeExportsHot.js"), foundReactClasses = false; if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "app.js" + ": " + err.message); } }); } } })(); }
 
 /***/ },
 /* 1 */
@@ -20441,8 +20437,6 @@
 /* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Param/Documents/react-bootstrap/node_modules/react-hot-loader/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Param/Documents/react-bootstrap/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } (function () {
-
 	'use strict';
 
 	var React = __webpack_require__(1);
@@ -20453,58 +20447,54 @@
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      results: null,
-	      selectedProduct: null
+	      data: undefined
 	    };
-	  },
-
-	  renderProduct: function renderProduct(product) {
-	    var _this = this;
-
-	    var style = {
-	      display: 'inline-block',
-	      borderWidth: 1,
-	      borderStyle: 'solid',
-	      borderColor: this.state.selectedProduct === product.id ? 'blue' : 'white'
-	    };
-
-	    return React.createElement(
-	      'div',
-	      { style: style, onClick: function () {
-	          _this.setState({ selectedProduct: product.id });
-	        } },
-	      React.createElement('img', { src: product.search_image, style: {
-	          width: 180
-	        } })
-	    );
 	  },
 
 	  componentDidMount: function componentDidMount() {
-	    var _this2 = this;
+	    var _this = this;
 
-	    superagent.get('/api/search/data/jeans', function (err, res) {
+	    superagent.get('/api/style/790880', function (err, res) {
 	      if (err) {
 	        return console.log(err);
 	      };
 
-	      _this2.setState({
-	        results: res.body.data.results.products
+	      _this.setState({
+	        data: res.body.data
 	      });
 	    });
 	  },
 
 	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      this.state.results ? this.state.results.map(this.renderProduct) : 'Loading...'
-	    );
+	    if (this.state.data) {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement('img', { src: this.state.data.styleImages['default'].imageURL, width: 200 }),
+	        React.createElement(
+	          'div',
+	          null,
+	          this.state.data.productDisplayName
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          'Rs. ',
+	          this.state.data.discountedPrice
+	        )
+	      );
+	    } else {
+	      return React.createElement(
+	        'div',
+	        null,
+	        '"Loading..."'
+	      );
+	    }
 	  }
+
 	});
 
 	module.exports = Greeting;
-
-	/* REACT HOT LOADER */ }).call(this); if (false) { (function () { module.hot.dispose(function (data) { data.makeHot = module.makeHot; }); if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Param/Documents/react-bootstrap/node_modules/react-hot-loader/makeExportsHot.js"), foundReactClasses = false; if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "greeting.js" + ": " + err.message); } }); } } })(); }
 
 /***/ },
 /* 158 */
